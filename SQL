@@ -1,0 +1,39 @@
+#DEPUTADOS FEDERAIS
+
+#gera uma tabela com o número de votos no PT para dep fed por município
+SELECT *
+FROM `basedosdados.br_tse_eleicoes.resultados_partido_municipio` 
+WHERE cargo = "deputado federal"
+AND sigla_partido="PT"
+AND (ano=2022 OR ano=2018 OR ano=2014 OR ano=2010 OR ano=2006 OR ano=2002)
+ORDER BY ano;
+
+#gera uma tabela com o número de votos válidos por município
+SELECT ano, id_municipio_tse, votos_validos
+FROM `basedosdados.br_tse_eleicoes.detalhes_votacao_municipio` 
+WHERE cargo = "deputado federal"
+AND (ano=2022 OR ano=2018 OR ano=2014 OR ano=2010 OR ano=2006 OR ano=2002)
+ORDER BY ano;
+
+#VEREADORES
+
+#necessário para classificação dos candidatos evangélicos:
+#gera uma tabela com os dados informados ao TSE no momento da candidatura a vereador em cada ano
+SELECT *
+FROM `basedosdados.br_tse_eleicoes.candidatos` 
+WHERE cargo = "vereador"
+AND (ano=2020) #em 2020 essa tabela tem 517859 linhas
+
+#necessário para implementar o modelo
+#gera uma tabela com o numero de votos de cada candidatura
+SELECT *
+FROM `basedosdados.br_tse_eleicoes.candidatos` 
+WHERE cargo = "vereador"
+AND (ano=2020) #em 2020 essa tabela tem 517859 linhas
+
+
+
+
+
+
+
