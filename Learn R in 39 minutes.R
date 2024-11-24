@@ -1,4 +1,5 @@
-# T
+# Learn R in 39 minutes
+# Video: https://www.youtube.com/watch?v=yZ0bV2Afkjc
 
 library(tidyverse)
 
