@@ -31,6 +31,43 @@ FROM `basedosdados.br_tse_eleicoes.candidatos`
 WHERE cargo = "vereador"
 AND (ano=2020) #em 2020 essa tabela tem 517859 linhas
 
+SELECT
+    id_municipio_nascimento,
+    COUNT(*) AS numero_nascidos_vivos
+FROM
+    `basedosdados.br_ms_sinasc.microdados`
+WHERE
+    idade_mae BETWEEN 12 AND 19
+    AND ano = 2010
+GROUP BY
+    id_municipio_nascimento
+ORDER BY
+    numero_nascidos_vivos DESC;
+
+SELECT
+    ano,
+    COUNT(DISTINCT id_municipio_residencia) AS numero_municipios
+FROM
+    `basedosdados.br_ms_sinasc.microdados`
+GROUP BY
+    ano
+ORDER BY
+    ano;
+
+SELECT *
+FROM  `basedosdados.br_ms_sinasc.microdados`
+LIMIT 10;
+
+SELECT
+    ano,
+    COUNT(*) AS total_nascidos_vivos
+FROM
+    `basedosdados.br_ms_sinasc.microdados`
+GROUP BY
+    ano
+ORDER BY
+    ano;
+
 
 
 
