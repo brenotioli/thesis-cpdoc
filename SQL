@@ -1,3 +1,46 @@
+SELECT * 
+FROM `basedosdados.br_tse_eleicoes.resultados_candidato` AS dd
+WHERE dd.ano = 2022
+AND sigla_uf = "RJ"
+AND cargo = "deputado federal"
+AND resultado = "nao eleito"
+ORDER BY numero_partido, votos DESC;
+
+SELECT id_municipio, numero_candidato, numero_partido, votos, resultado, sigla_uf, cargo, ano
+FROM `basedosdados.br_tse_eleicoes.resultados_candidato` AS c1
+WHERE (
+    -- Candidato "eleito" ou "eleito por media" com o menor número de votos
+    TRIM(c1.resultado) IN ('eleito por qp', 'eleito por media') 
+    AND c1.votos = (
+        SELECT MIN(c2.votos)
+        FROM `basedosdados.br_tse_eleicoes.resultados_candidato` AS c2
+        WHERE c2.id_municipio = c1.id_municipio
+        AND c2.numero_partido = c1.numero_partido
+        AND TRIM(c2.resultado) IN ('eleito por qp', 'eleito por media')
+        AND c2.sigla_uf = c1.sigla_uf
+        AND c2.cargo = "vereador"
+        AND c2.ano = 2020
+        AND c1.id_municipio = "3122306"
+    )
+)
+OR (
+    -- Candidato "suplente" ou "não eleito" com o maior número de votos
+    TRIM(c1.resultado) IN ('suplente', 'não eleito') 
+    AND c1.votos = (
+        SELECT MAX(c2.votos)
+        FROM `basedosdados.br_tse_eleicoes.resultados_candidato` AS c2
+        WHERE c2.id_municipio = c1.id_municipio
+        AND c2.numero_partido = c1.numero_partido
+        AND TRIM(c2.resultado) IN ('suplente', 'nao eleito')
+        AND c2.sigla_uf = c1.sigla_uf
+        AND c2.cargo = "vereador"
+        AND c2.ano = 2020
+        AND c1.id_municipio = "3122306"
+    )
+)
+ORDER BY id_municipio, numero_partido, votos;
+
+
 #DEPUTADOS FEDERAIS
 
 #gera uma tabela com o número de votos no PT para dep fed por município
