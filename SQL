@@ -1,3 +1,13 @@
+SELECT 
+  id_municipio_residencia, 
+  CONCAT(FLOOR((ano - 1997) / 4) * 4 + 1997, '-', FLOOR((ano - 1997) / 4) * 4 + 2000) AS periodo,
+  COUNT(*) AS numero_nascidos_vivos_maes_adolescentes
+FROM `basedosdados.br_ms_sinasc.microdados` AS b
+WHERE b.ano BETWEEN 1997 AND 2024
+  AND b.idade_mae BETWEEN 0 AND 19
+GROUP BY id_municipio_residencia, periodo
+ORDER BY id_municipio_residencia, periodo;
+
 SELECT * 
 FROM `basedosdados.br_tse_eleicoes.resultados_candidato` AS dd
 WHERE dd.ano = 2022
